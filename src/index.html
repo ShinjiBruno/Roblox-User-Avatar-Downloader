@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<hmtl>
+    <head>
+        <title>Roblox profile picture picker</title>
+        <script src="../script/index.js"></script>
+    </head>
+    <body>
+        <h1>Roblox Profile Pic Picker</h1>
+
+        <p>
+            Put your Roblox username in the input below and it will generate your profile pic in various resolutions
+        </p>
+        <div>
+        <input id="robloxUserNameInput" placeholder="Ex:. DragonQuestJoker"/> 
+        <button type="button" onclick="searchRobloxUserName()" style="height: auto;"> Generate</button>
+        </div>
+        <div style="margin-top: 5px">
+            <select id="select-size">
+                <option value="0">Select a resolution</option>
+                <option value="1">720x720</option>
+                <option value="2">420x420</option>
+                <option value="3">352x352</option>
+                <option value="4">180x180</option>
+                <option value="5">150x150</option>
+                <option value="6">110x110</option>
+                <option value="6">100x100</option>
+                <option value="7">75x75</option>
+                <option value="7">60x60</option>
+                <option value="8">50x50</option>
+                <option value="9">48x48</option>
+            </select>
+        </div>
+        <div id="results" class="hidden">
+            
+            <div id="select-container" class="row">
+            </div>
+            <h2 id="username-display"></h2>
+            <div id="profile-images" class="profile-container">
+                <!-- Profile images will be added here -->
+            </div>
+        </div>
+    </body>
+</hmtl>
