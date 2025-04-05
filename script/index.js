@@ -1,16 +1,35 @@
+const PORT=3010;
+
+const resetWarningStyle = () =>{
+    const warningDiv = document.getElementById('warning_text');
+    warningDiv.textContent = '';
+    warningDiv.style.color = 'red';
+}
+
 async function searchRobloxUserName(){
     const input = document.getElementById("robloxUserNameInput")
-    console.log('input', input)
-    if(!input) return
+    const selectSize = document.getElementById('select-size');
+    const warningDiv = document.getElementById('warning_text');
+    resetWarningStyle();
+
+    if(!input || !selectSize) return
+
+    if(selectSize.value === '0'){
+        warningDiv.textContent = 'Please select a size.';
+        return
+    }
     
     const userName = input.value;
-    console.log('userName', userName)
-    if(!userName) return
+    if(!userName || input.value === '') {
+        warningDiv.textContent = 'Please enter a username.';
+        return
+    }
     
     try {
-        const response = await fetch(`http://localhost:3010/api/roblox/users/search?keyword=${encodeURIComponent(userName)}&limit=10`);
+        const response = await fetch(`http://localhost:${PORT}/api/roblox/users/search?keyword=${encodeURIComponent(userName)}&limit=10`);
         
         if(!response.ok) {
+            warningDiv.textContent = 'Error searching for user. Please try again later';
             console.log('Error:', response.statusText)
             return
         }
@@ -19,6 +38,7 @@ async function searchRobloxUserName(){
         const data = responseData.data;
         
         if(!data || data.length === 0) {
+            warningDiv.textContent = 'No users found.';
             console.log('No users found');
             return;
         }
@@ -32,6 +52,7 @@ async function searchRobloxUserName(){
         console.log('User ID:', data[0].id);
         displayUserProfilePictures( data[0]);
     } catch (error) {
+        warningDiv.textContent = 'Error searching for user. Please try again later';
         console.error('Error searching for user:', error);
     }
 }
@@ -48,16 +69,13 @@ function displayUserProfilePictures(userData) {
     
     resultsContainer.classList.remove('hidden');
     
-    console.log('selectSize', selectSize)
-    if(!selectSize) return
-    if(!selectSize.value === '0') return
 
     const userId = userData.id;
     const selectSizeValue = selectSize.children[selectSize.selectedIndex].textContent.split('x');
     const width = selectSizeValue[0];
     const height = selectSizeValue[1];
 
-    fetch(`http://localhost:3010/api/roblox/avatar-headshot?userId=${userId}&size=${width}x${height}`)
+    fetch(`http://localhost:${PORT}/api/roblox/avatar-headshot?userId=${userId}&size=${width}x${height}`)
         .then((response) => {
             if(!response.ok) {
                 console.log('Error:', response.statusText)

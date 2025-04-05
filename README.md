@@ -6,8 +6,8 @@
 
 ![Avatar Example 3](https://tr.rbxcdn.com/30DAY-AvatarHeadshot-0C5D41F281A3F397240D3E286E4EBDD5-Png/180/180/AvatarHeadshot/Png/noFilter)
 
-To use it, just have Node.js installed on your machine, run:
-`npm start-server`
-in the CLI and open the index.html file in your browser
+To use it, just have Node.js installed on your machine. Then run `npm start` command in the CLI.
+
+This will start the server and open the `index.html` file in your default browser.
 
 👍👍👍

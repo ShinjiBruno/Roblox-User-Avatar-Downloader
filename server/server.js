@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const cachedData = require('./cache.js'); 
 
 const app = express();
 const PORT = 3010;
@@ -15,6 +16,10 @@ app.get('/api/roblox/users/search', async(req, res)=>{
         if(!keyword){
             return res.status(400).json({error: 'Keyword is required'});
         }
+        if(cachedData.userName === keyword){
+            return res.json(cachedData.data);
+        }
+
         const response = await axios.get(`https://users.roblox.com/v1/users/search`, {
             params: {
               keyword,
@@ -22,8 +27,13 @@ app.get('/api/roblox/users/search', async(req, res)=>{
             }
         });
         if(!response || response.status !== 200){
+            cachedData.userName='';
+            cachedData.data={};
+            console.log('Error:', response.statusText);
             return res.status(response.status).json({error: response.statusText});
         }
+        cachedData.userName = keyword;
+        cachedData.data = response.data;
         res.json(response.data);
     }catch(error){
         console.error('Error fetching data from Roblox API:', error.message);
